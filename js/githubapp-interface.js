@@ -23,13 +23,6 @@ var displayResults = function(username, followers, following, avatarUrl, locatio
 
 };
 
-var displayErrorMessage = function(username) {
-
-  $("#error").show().text("Oh Mhen! We couldn’t find any users matching " + "'" + username + "'");
-  // $("#username").val(""); If I add this, I will get an undefined in the next search
-
-};
-
 function calculateTime(created_at) {
 
   var months = moment().diff(created_at, 'months');
