@@ -1,47 +1,81 @@
 body {
-  margin-top: 20px;
+  font-family: serif;
+  color: #000000;
+  background-color: #FFFFFF;
+  background: url("../IMAGES/blank-wallpaper8.jpg");
+  background-size: cover;
 }
 
-#error {
-  display: none;
-}
-
-#results {
-  display: none;
-}
-
-#profile_picture{
-  margin-bottom: 10px;
-}
-
-.repos-description {
-  margin-bottom: 10px;
-}
-
-#github-search {
-  margin-top: 30px;
-  margin-bottom: 30px;
-}
-
-.mybadge {
-  display: inline-block;
-  min-width: 10px;
-  padding: 3px 7px;
-  font-size: 12px;
-  font-weight: bold;
-  line-height: 1;
-  color: #fff;
+.page-header {
   text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  background-color: #4078C0;
-  border-radius: 10px;
+  font-size: 60pt;
 }
 
 
+/*-----------------------------------API Form Styling-----------------------------------*/
 
-/*#public-repos {
-  float: right;
-}*/
+p {
+  text-align: center;
+  font-size: 15pt;
+}
 
-/*#4078C0*/
+form {
+  margin-left: 75px;
+  margin-right: 75px;
+  margin-top: 90px;
+}
+
+form h2 {
+  margin-bottom: 15px;
+}
+
+#username-input {
+  font-size: 18pt;
+  color: #000000;
+  height: 50px;
+}
+
+.btn-success {
+  margin-top: 50px;
+  font-size: 18pt;
+}
+
+
+/*-----------------------------------Account Styling-----------------------------------*/
+
+#account-info h1 {
+  font-size: 35pt;
+  margin-top: 75px;
+  text-align: center;
+}
+
+#account-info #show-url {
+  text-align: center;
+  font-size: 15pt;
+  margin-bottom: 25px;
+}
+
+#account-info #repo-number {
+  text-align: center;
+  font-size: 22pt;
+  margin-top: 60px;
+  margin-bottom: 20px;
+}
+
+#repo-number, #following-header {
+  display: none;
+}
+
+#following-header {
+  text-align: center;
+  margin-bottom: 50px;
+  margin-left: 200px;
+  margin-right: 200px;
+}
+
+#show-repo-list {
+  font-size: 18pt;
+  margin-left: 50px;
+  margin-right: 50px;
+  margin-bottom: 150px;
+}
