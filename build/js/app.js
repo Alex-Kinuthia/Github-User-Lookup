@@ -1,1 +1,93 @@
-!function e(t,n,o){function r(i,u){if(!n[i]){if(!t[i]){var p="function"==typeof require&&require;if(!u&&p)return p(i,!0);if(a)return a(i,!0);var s=new Error("Cannot find module '"+i+"'");throw s.code="MODULE_NOT_FOUND",s}var l=n[i]={exports:{}};t[i][0].call(l.exports,function(e){var n=t[i][1][e];return r(n?n:e)},l,l.exports,e,t,n,o)}return n[i].exports}for(var a="function"==typeof require&&require,i=0;i<o.length;i++)r(o[i]);return r}({1:[function(e,t,n){n.apiKey=" 1ae3cf33523ced6e7350b538c08616b95e6ab850"},{}],2:[function(e,t,n){function o(){}var r=e("./../.env").apiKey;o.prototype.userLookup=function(e,t,n){$.get("https://api.github.com/users/"+e+"?access_token="+r).then(function(n){t(e,n.followers,n.following,n.avatar_url,n.location,n.html_url,n.public_repos,n.bio,n.blog,n.company,n.email)}).fail(function(t){n(e)})},o.prototype.reposLookup=function(e,t){$.get("https://api.github.com/users/"+e+"/repos?access_token="+r).then(function(e){console.log(e),t(e)}).fail(function(e){})},o.prototype.reposbyLanguage=function(e,t,n){$.get("https://api.github.com/users/"+e+"/repos?access_token="+r).then(function(e){t(e,n)}).fail(function(e){})},n.gitHubModule=o},{"./../.env":1}],3:[function(e,t,n){function o(e){var t=moment().diff(e,"months"),n=moment().diff(e,"years");return 1===t?t+" month ago.":t>=12?n+"years ago.":t+" months ago."}function r(e){return null===e?" ":e}function a(e,t){for(var n=0;n<t;n++)u(e[n])}function i(e){for(var t=[],n=0;n<e.length;n++)null!=e[n].language&&t.push(e[n].language);for(var o=t.reduce(function(e,t){return e.indexOf(t)<0&&e.push(t),e},[]),r=0;r<o.length;r++)$("#used-languages").append("<option>"+o[r]+"</option>")}function u(e){$("#repos").append('<dt><a class="link" target="_blank" href="'+e.html_url+'">'+e.name+'</a></dt><dd class="repos-description"><p id="display-description">'+r(e.description)+"</p><p>Created "+o(e.created_at)+"</p><p>"+e.language+"</p></dd>")}var p=e("./../js/githubapp.js").gitHubModule,s=function(e,t,n,o,r,a,i,u,p,s,l){$("#results").show();var c=$("<img/>",{class:"img-responsive",src:o});$("#name").text(e),$("#location").text(r),$("#profile_picture").append(c),$("#button-link").append('<a class="btn btn-primary" target="_blank" href='+a+' role="button">Go to Github Profile</a>'),$("#followers").text(t),$("#following").text(n),$("#bio").text(u),$("#company").text(s),$("#blog").text(p),$("#email").text(l),$("#public-repos").text(i)},l=function(e){$("#error").show().text("Oh Snap! We couldn’t find any users matching '"+e+"'")},c=function(e,t){$("#repos").empty();for(var n=0;n<e.length;n++)e[n].language===t&&u(e[n])},f=function(e){$("#repos").append("<dl>"),e.length<6?a(e,e.length):(a(e,6),$("#show-all-repos").append('<a class="btn btn-link" target="_blank" href='+e[0].owner.html_url+'?tab=repositories role="button">All Repos</a>')),$("#repos").append("</dl>"),i(e)};$(document).ready(function(){var e,t;$("#github-search").submit(function(n){n.preventDefault(),$("#error").hide(),$(".restart").empty(),e=$("#username").val(),t=new p,t.userLookup(e,s,l),t.reposLookup(e,f)}),$("#filter-by").submit(function(n){n.preventDefault();var o=$("#used-languages").val();t.reposbyLanguage(e,c,o)})})},{"./../js/githubapp.js":2}]},{},[3]);
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+exports.apiKey = "fd5d0e655a5b54d5a03e8d25c36bbbc7f1fb8bff";
+
+},{}],2:[function(require,module,exports){
+var apiKey = require ("./../.env").apiKey; //Assign apiKey as an empty variable if no .env file
+
+function Account (UserName) {
+  this.username = UserName;
+}
+
+Account.prototype.getUser = function(showAccount, showNameError) {
+  if (apiKey) {
+    $.get("https://api.github.com/users/" + this.username + "?access_token=" + apiKey).then(function(response) {
+      showAccount(response);
+    }).fail(function(error) {
+      showNameError(response);
+    });
+  } else {
+    $.get("https://api.github.com/users/" + this.username).then(function(response) {
+      showAccount(response);
+    }).fail(function(error) {
+      showNameError(response);
+    });
+  }
+};
+
+Account.prototype.getRepos = function(showRepoList, showRepoError) {
+  if (apiKey) {
+    $.get("https://api.github.com/users/" + this.username + "/repos?access_token=" + apiKey + "&per_page=100").then(function(response) {
+      showRepoList(response);
+    }).fail(function(error) {
+      showRepoError(response);
+    });
+  } else {
+    $.get("https://api.github.com/users/" + this.username + "/repos?per_page=100").then(function(response) {
+      showRepoList(response);
+    }).fail(function(error) {
+      showRepoError(response);
+    });
+  }
+};
+
+exports.accountModule = Account;
+
+},{"./../.env":1}],3:[function(require,module,exports){
+var Account = require ("./../js/account.js").accountModule;
+
+var showAccount = function(response) {
+  if (response.name === null) {
+    $("#show-name").text(response.login);
+  } else {
+    $("#show-name").text(response.name);
+  }
+  $("#show-url").text(response.html_url);
+  $("#repo-number").show();
+  $("#show-repo-number").text(response.public_repos);
+  $("#following-header").show();
+  $("#show-followers").text(response.followers);
+  $("#show-following").text(response.following);
+};
+
+var showNameError = function(response) {
+  $("#show-name").text(error.responseJSON.message);
+};
+
+var showRepoList = function(response) {
+  for (var i = 0; i < response.length; i ++)
+  {
+    if (response[i].description === null || response[i].description === "") {
+      $("#show-repo-list").append("<li>" + response[i].name + "</li>");
+    }
+    else {
+      $("#show-repo-list").append("<li>" + response[i].name + ": " + response[i].description + "</li>");
+    }
+  }
+};
+
+var showRepoError = function(response) {
+  $("#show-repo-list").text(error.responseJSON.message);
+};
+
+$(document).ready(function(event) {
+  $("#username-form").submit(function(event) {
+    event.preventDefault();
+    var usernameInput = $("#username-input").val();
+    $("#show-repo-list").text(""); //Resets getRepos() to blank every time submit btn is entered
+    var newAccount = new Account (usernameInput);
+    newAccount.getUser(showAccount, showNameError);
+    newAccount.getRepos(showRepoList, showRepoError);
+  });
+});
+
+},{"./../js/account.js":2}]},{},[3]);
