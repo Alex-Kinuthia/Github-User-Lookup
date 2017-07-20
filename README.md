@@ -48,3 +48,8 @@ Contact Alex for support in running this program.
 * jQuery
 * JavaScript
 * GitHub API
+
+* JavaScript
+* GitHub API
+=======
+
